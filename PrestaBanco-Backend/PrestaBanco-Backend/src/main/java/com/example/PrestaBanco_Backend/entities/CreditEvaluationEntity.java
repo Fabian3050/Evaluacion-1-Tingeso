@@ -18,4 +18,19 @@ public class CreditEvaluationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Boolean ratioFeeIncome;
+    private Boolean creditHistory;
+    private Boolean jobSeniority;
+    private Boolean ratioDebtIncome;
+    private Boolean maximumFinancingAmount;
+    private Boolean applicantAge;
+    private Boolean savingCapacity;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    @ManyToOne
+    @JoinColumn(name = "executive_id")
+    private ExecutiveEntity executive;
 }

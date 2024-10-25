@@ -6,31 +6,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
-public class UserEntity {
+@Table(name = "register_user")
+public class RegisterUserEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String secondName;
-    private String lastName;
-    private String secondLastName;
-    private String rut;
-    private int salary;
+    // agregar todos los elementos necesarios para subida de archivos para el usuario
+    private String archivos;
 
     @OneToOne
-    @JoinColumn(name = "credit_id")
-    private CreditEntity credit;
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
-    @OneToOne
-    @JoinColumn(name = "register_id")
-    private RegisterUserEntity registerUser;
 }

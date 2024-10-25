@@ -23,4 +23,9 @@ public class ExecutiveEntity {
     private String lastName;
     private String secondLastName;
     private String rut;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
 }

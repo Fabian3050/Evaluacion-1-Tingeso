@@ -19,10 +19,16 @@ public class CreditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String creditType;
+    private int creditType;
+    private int maxTerm;
+    private float interestRate;
+    private int maximumFinancingAmount;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @OneToOne
+    @JoinColumn(name = "simulate_id")
+    private SimulateEntity simulate;
 }
