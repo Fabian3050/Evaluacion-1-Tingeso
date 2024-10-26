@@ -27,5 +27,4 @@ public class ExecutiveEntity {
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
-
 }

@@ -29,6 +29,14 @@ public class CreditEntity {
     private UserEntity user;
 
     @OneToOne
+    @JoinColumn(name = "executive_id")
+    private ExecutiveEntity executive;
+
+    @OneToOne
     @JoinColumn(name = "simulate_id")
     private SimulateEntity simulate;
+
+    @OneToOne
+    @JoinColumn(name = "creditEvaluation_id")
+    private CreditEntity creditEvaluation;
 }

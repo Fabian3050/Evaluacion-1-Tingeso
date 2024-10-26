@@ -26,35 +26,30 @@ public class SimulateService {
         return simulateRepository.findById(id).get();
     }
 
-    public float getMonthlyFee(SimulateEntity simulate){
-        float m = (float) (simulate.getP() * ((simulate.getR() * Math.pow((1 + simulate.getR()), simulate.getN()))/((Math.pow((1 + simulate.getR()), simulate.getN())) - 1)));
-        return m ;
-    }
+    public float calculateMonthlyPayment(SimulateEntity simulate) {
+        // Extract variables from the simulate object
+        float principal = simulate.getP();  // Loan amount
+        float monthlyRate = simulate.getR(); // Monthly interest rate
+        int paymentPeriod = simulate.getN();   // Number of payments (months)
 
-    public float calcularCuotaMensual(SimulateEntity simulate) {
-        // Extraer las variables del objeto simulate
-        float principal = simulate.getP();  // Monto del préstamo
-        float monthlyRate = simulate.getR(); // Tasa de interés mensual
-        int paymentPeriod = simulate.getN();   // Número de pagos (meses)
-
-        // Validar que los valores sean válidos
+        // Validate that the values are valid
         if (monthlyRate == 0 || paymentPeriod == 0) {
-            throw new IllegalArgumentException("La tasa de interés y el número de pagos deben ser mayores a cero.");
+            throw new IllegalArgumentException("Interest rate and number of payments must be greater than zero.");
         }
 
-        // Cálculo de la potencia común
-        double potencia = Math.pow(1 + monthlyRate, paymentPeriod);
+        // Calculate the common power
+        double power = Math.pow(1 + monthlyRate, paymentPeriod);
 
-        // Aplicar la fórmula para calcular la cuota mensual
-        float cuotaMensual = (float) (principal * (monthlyRate * potencia) / (potencia - 1));
+        // Apply the formula to calculate the monthly payment
+        float monthlyPayment = (float) (principal * (monthlyRate * power) / (power - 1));
 
-        return cuotaMensual;
+        return monthlyPayment;
     }
 
     //verificar bien el uso de esta funcion, preguntar a chat gpt como realizar potencias en java
     public SimulateEntity getSimulateCredit(Long id){
         SimulateEntity simulate = getSimulateById(id);
-        float monthlyFee = this.calcularCuotaMensual(simulate);
+        float monthlyFee = this.calculateMonthlyPayment(simulate);
         simulate.setM(monthlyFee);
         return simulate;
     }
