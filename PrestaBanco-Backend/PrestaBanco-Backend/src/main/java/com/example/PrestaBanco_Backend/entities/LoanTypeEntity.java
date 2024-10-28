@@ -6,25 +6,24 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "executive")
-public class ExecutiveEntity {
+@Table(name = "loan_type")
+public class LoanTypeEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String secondName;
-    private String lastName;
-    private String secondLastName;
-    private String rut;
+    private String nameCredit;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @OneToMany
+    @JoinColumn(name = "documents")
+    private List<DocumentEntity> documents =  new ArrayList<>();
 }

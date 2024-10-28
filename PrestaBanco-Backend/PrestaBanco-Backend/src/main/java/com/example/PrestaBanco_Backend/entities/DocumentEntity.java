@@ -1,5 +1,6 @@
 package com.example.PrestaBanco_Backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,17 +12,25 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "register_user")
-public class RegisterUserEntity {
+@Table(name = "document")
+public class DocumentEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // agregar todos los elementos necesarios para subida de archivos para el usuario
-    private String archivos;
+    private String typeCreditDocument;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private String documentName;
+
+    private String documentType;
+
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private byte[] data;
+
+    @ManyToOne
+    @JoinColumn(name = "credit_id")
+    private CreditEntity credit;
 }

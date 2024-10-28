@@ -25,6 +25,7 @@ public class UserEntity {
     private String secondLastName;
     private String rut;
     private int salary;
+    private String address;
 
     @OneToOne
     @JoinColumn(name = "credit_id")

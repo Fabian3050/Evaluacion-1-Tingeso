@@ -7,6 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.print.Doc;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @Builder
@@ -19,18 +23,21 @@ public class CreditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int creditType;
+    @ManyToOne
+    @JoinColumn(name = "LoanType_id", nullable = false)
+    private LoanTypeEntity loanType;
+
+    private int creditType; // 1 o 2 o 3 o 4
     private int maxTerm;
     private float interestRate;
     private int maximumFinancingAmount;
 
+    @OneToMany(mappedBy = "credit", cascade = CascadeType.ALL)
+    private List<DocumentEntity> documents = new ArrayList<>();
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
-
-    @OneToOne
-    @JoinColumn(name = "executive_id")
-    private ExecutiveEntity executive;
 
     @OneToOne
     @JoinColumn(name = "simulate_id")

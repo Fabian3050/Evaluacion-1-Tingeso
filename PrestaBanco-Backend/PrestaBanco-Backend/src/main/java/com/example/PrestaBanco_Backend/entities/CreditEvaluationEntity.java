@@ -27,10 +27,6 @@ public class CreditEvaluationEntity {
     private Boolean savingCapacity;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-
-    @ManyToOne
-    @JoinColumn(name = "executive_id")
-    private ExecutiveEntity executive;
+    @JoinColumn(name = "credit_id")
+    private CreditEntity credit;
 }

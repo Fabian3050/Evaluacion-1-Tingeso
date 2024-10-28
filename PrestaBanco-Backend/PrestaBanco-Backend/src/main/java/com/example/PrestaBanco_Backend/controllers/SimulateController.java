@@ -24,5 +24,4 @@ public class SimulateController {
         SimulateEntity simulate = simulateService.getSimulateCredit(id);
         return ResponseEntity.ok(simulate);
     }
-
 }

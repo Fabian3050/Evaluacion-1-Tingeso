@@ -18,7 +18,7 @@ public class SimulateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private float m;
+    private int m;
     private int p; //loan amount
     private float r; //monthly interest rate (anual rate/12/100)
     private int n; //total payment period

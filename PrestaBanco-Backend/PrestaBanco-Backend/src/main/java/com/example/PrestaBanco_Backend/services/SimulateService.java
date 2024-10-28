@@ -50,7 +50,8 @@ public class SimulateService {
     public SimulateEntity getSimulateCredit(Long id){
         SimulateEntity simulate = getSimulateById(id);
         float monthlyFee = this.calculateMonthlyPayment(simulate);
-        simulate.setM(monthlyFee);
+        int monthlyFeeRounded = (int)monthlyFee;
+        simulate.setM(monthlyFeeRounded);
         return simulate;
     }
 
