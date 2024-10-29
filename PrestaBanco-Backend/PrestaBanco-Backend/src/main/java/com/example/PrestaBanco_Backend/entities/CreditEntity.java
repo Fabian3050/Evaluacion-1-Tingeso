@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +23,19 @@ public class CreditEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "LoanType_id", nullable = false)
+    @JoinColumn(name = "LoanType_id")
     private LoanTypeEntity loanType;
 
     private int creditType; // 1 o 2 o 3 o 4
     private int maxTerm;
     private float interestRate;
     private int maximumFinancingAmount;
+    private String status;
 
     @OneToMany(mappedBy = "credit", cascade = CascadeType.ALL)
     private List<DocumentEntity> documents = new ArrayList<>();
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 

@@ -26,6 +26,10 @@ public class DocumentController {
             @RequestParam("doc") String doc,
             @PathVariable Long id
     ) throws IOException {
+        System.out.println("File name: " + file.getOriginalFilename());
+        System.out.println("File content type: " + file.getContentType());
+        System.out.println("Document type: " + doc);
+
         DocumentEntity savedDocument = documentService.saveDocument(file, doc, id);
         return ResponseEntity.ok("Document uploaded successfully. ID: " + savedDocument.getId());
     }

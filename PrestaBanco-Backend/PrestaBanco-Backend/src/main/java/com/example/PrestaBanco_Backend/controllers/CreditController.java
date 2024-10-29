@@ -1,9 +1,7 @@
 package com.example.PrestaBanco_Backend.controllers;
 
 import com.example.PrestaBanco_Backend.entities.CreditEntity;
-import com.example.PrestaBanco_Backend.entities.UserEntity;
 import com.example.PrestaBanco_Backend.services.CreditService;
-import com.example.PrestaBanco_Backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +27,9 @@ public class CreditController {
         return ResponseEntity.ok(credit);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<CreditEntity> saveCredit(@RequestBody CreditEntity credit,Long id){
-        CreditEntity newCredit = creditService.saveCredit(credit,id);
-        return ResponseEntity.ok(newCredit);
+    @PostMapping("/{userId}")
+    public Long saveCredit(@RequestBody CreditEntity credit, @PathVariable Long userId){
+        return creditService.saveCredit(credit,userId);
     }
 
     @PutMapping("/")

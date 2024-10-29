@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Data
@@ -27,9 +30,9 @@ public class UserEntity {
     private int salary;
     private String address;
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name = "credit_id")
-    private CreditEntity credit;
+    private List<CreditEntity> credits = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "register_id")
