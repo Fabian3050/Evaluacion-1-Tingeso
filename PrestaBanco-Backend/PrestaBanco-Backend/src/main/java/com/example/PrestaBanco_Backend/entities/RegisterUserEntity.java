@@ -18,8 +18,7 @@ public class RegisterUserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // agregar todos los elementos necesarios para subida de archivos para el usuario
-    private String archivos;
+
 
     @OneToOne
     @JoinColumn(name = "user_id")

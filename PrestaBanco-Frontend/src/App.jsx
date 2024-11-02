@@ -4,8 +4,9 @@ import {BrowserRouter as Router, Route, Routes, BrowserRouter} from 'react-route
 import Home from './components/Home'
 import UserList from './components/UserList'
 import AddUser from "./components/AddEditUser"
-import SimulateList from './components/SimulateList'
 import AddSimulate from './components/AddSimulate'
+import RegisterList from './components/RegisterList'
+import RequestCredit from './components/RequestCredit'
 
 
 function App() {
@@ -19,11 +20,13 @@ function App() {
             <Route path="/user/list" element = {<UserList />} />
             <Route path="/user/add" element = {<AddUser />} />
             <Route path="/user/edit/:id" element = {<AddUser />} />
-            <Route path="/simulate/list" element = {<SimulateList />} />
             <Route path="/simulate/add" element = {<AddSimulate />} />
+            <Route path="/register/list" element = {<RegisterList />} />
+            <Route path="/request-credit/:userId" element = {<RequestCredit />} />
           </Routes>
       </div>
     </BrowserRouter>
   );
 }
+
 export default App

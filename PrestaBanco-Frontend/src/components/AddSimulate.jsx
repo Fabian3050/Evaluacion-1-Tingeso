@@ -22,7 +22,7 @@ const CreditSimulation = () => {
   
     // Datos a enviar en la simulación
     const simulationData = {
-      m: monthlyPayments,
+      m: 0,
       p: loanAmount,         // loanAmount renombrado a "p"
       r: interestRate,       // interestRate renombrado a "r"
       n: paymentPeriod,      // paymentPeriod renombrado a "n"
@@ -167,6 +167,9 @@ const CreditSimulation = () => {
               <p>Introduce los datos y realiza la simulación para ver los resultados.</p>
             </div>
           )}
+          <Link to="/" className="btn btn-primary mt-3">
+            Volver al Menú Principal
+          </Link>
         </div>
       </div>
     </div>

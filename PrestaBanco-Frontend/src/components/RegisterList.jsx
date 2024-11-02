@@ -63,6 +63,10 @@ const UserList = () => {
     navigate(`/user/edit/${id}`);
   };
 
+  const handleRequestCredit = (userId) => {
+    navigate(`/request-credit/${userId}`);
+  };
+
   return (
     <TableContainer component={Paper}>
       <br />
@@ -75,7 +79,7 @@ const UserList = () => {
           color="primary"
           startIcon={<PersonAddIcon />}
         >
-          Añadir usuario
+          Registrar usuario
         </Button>
       </Link>
       <br /> <br />
@@ -142,6 +146,17 @@ const UserList = () => {
                 >
                   Eliminar
                 </Button>
+
+                <Button
+                  variant="contained"
+                  color="success"
+                  size="small"
+                  onClick={() => handleRequestCredit(user.id)}
+                  style={{ marginLeft: "0.5rem" }}
+                >
+                  Solicitar Crédito
+                </Button>
+
               </TableCell>
             </TableRow>
           ))}

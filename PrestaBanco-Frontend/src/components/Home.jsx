@@ -7,10 +7,10 @@ const Home = () => {
         <div className="home-container">
             <h1>Presta Banco</h1>
             <div className="button-container">
-                <Link to="/simulate/list">
+                <Link to="/simulate/add">
                     <button className="menu-button">Simulación de crédito</button>
                 </Link>
-                <Link to="/solicitud-credito">
+                <Link to="/register/list">
                     <button className="menu-button">Solicitud de crédito</button>
                 </Link>
                 <Link to="/user/list">

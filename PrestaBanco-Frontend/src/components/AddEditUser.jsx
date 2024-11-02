@@ -209,7 +209,9 @@ const AddUser = () => {
         </FormControl>
       </form>
       <hr />
-      <Link to="/user/list">Volver al a lista de usuarios</Link>
+      <Link to="/" className="btn btn-primary mt-3">
+        Volver al Menú Principal
+      </Link>
     </Box>
   );
 };
