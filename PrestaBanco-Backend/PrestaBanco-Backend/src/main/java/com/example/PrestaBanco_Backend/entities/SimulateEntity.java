@@ -22,6 +22,12 @@ public class SimulateEntity {
     private int p; //loan amount
     private float r; //monthly interest rate (anual rate/12/100)
     private int n; //total payment period
+    private int totalPriceHome;
+    private int monthlyClientIncome;
+    private String creditType;
+    private String message;
+    private int totalCreditCost;
+    private int totalMonthlyPay;
 
     @OneToOne
     @JoinColumn(name = "user_id")

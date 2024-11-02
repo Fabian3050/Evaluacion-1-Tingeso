@@ -1,5 +1,7 @@
 package com.example.PrestaBanco_Backend.controllers;
 
+import com.example.PrestaBanco_Backend.dto.CreditDto;
+import com.example.PrestaBanco_Backend.dto.DocumentDto;
 import com.example.PrestaBanco_Backend.entities.CreditEntity;
 import com.example.PrestaBanco_Backend.services.CreditService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +18,14 @@ public class CreditController {
     CreditService creditService;
 
     @GetMapping("/get")
-    public ResponseEntity<List<CreditEntity>> ListCredit(){
-        List<CreditEntity> credits = creditService.getAllCredit();
-        return ResponseEntity.ok(credits);
+    public ResponseEntity<List<CreditDto>> getAllCredit(){
+        return (ResponseEntity<List<CreditDto>>) creditService.getAllCredit();
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<CreditEntity> getCreditById(@PathVariable Long id){
-        CreditEntity credit = creditService.getCreditById(id);
-        return ResponseEntity.ok(credit);
+    public ResponseEntity<List<CreditDto>> getAllCreditByUserId(@PathVariable Long id){
+        List<CreditDto> credits = creditService.getAllCreditByUserId(id);
+        return ResponseEntity.ok(credits);
     }
 
     @PostMapping("/{userId}")

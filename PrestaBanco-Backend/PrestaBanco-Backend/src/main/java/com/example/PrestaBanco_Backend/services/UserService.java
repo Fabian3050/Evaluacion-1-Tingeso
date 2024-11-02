@@ -33,5 +33,4 @@ public class UserService {
             throw new Exception(e.getMessage());
         }
     }
-
 }

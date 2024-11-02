@@ -1,5 +1,6 @@
 package com.example.PrestaBanco_Backend.services;
 
+import com.example.PrestaBanco_Backend.dto.DocumentDto;
 import com.example.PrestaBanco_Backend.entities.CreditEntity;
 import com.example.PrestaBanco_Backend.entities.DocumentEntity;
 import com.example.PrestaBanco_Backend.repositories.CreditRepository;
@@ -59,9 +60,19 @@ public class DocumentService {
         throw new FileNotFoundException();
     }
 
-    // Método para obtener todos los documentos como DTOs
-    public List<DocumentEntity> getAllDocuments() {
-        return documentRepository.findAll();
+    public List<DocumentDto> getAllDocuments() {
+        List<DocumentEntity> documents = documentRepository.findAll();
+        return documents.stream()
+                .map(this::convertDocumentToDTO)
+                .collect(Collectors.toList());
     }
 
+    public DocumentDto convertDocumentToDTO(DocumentEntity document) {
+        DocumentDto dto = new DocumentDto();
+        dto.setId(document.getId());
+        dto.setDocumentName(document.getDocumentName());
+        dto.setDocumentType(document.getDocumentType());
+        dto.setTypeCreditDocument(document.getTypeCreditDocument());
+        return dto;
+    }
 }

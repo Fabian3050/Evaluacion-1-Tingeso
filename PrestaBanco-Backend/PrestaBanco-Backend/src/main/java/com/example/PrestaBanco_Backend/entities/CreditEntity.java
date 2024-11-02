@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,11 +27,14 @@ public class CreditEntity {
     @JoinColumn(name = "LoanType_id")
     private LoanTypeEntity loanType;
 
-    private int creditType; // 1 o 2 o 3 o 4
+    private String creditType; // 1 o 2 o 3 o 4
     private int maxTerm;
     private float interestRate;
-    private int maximumFinancingAmount;
+    private int requestedAmount;
+    private int approvedAmount;
     private String status;
+    private Date applicationDate;
+    private Date approvedRejectionDate;
 
     @OneToMany(mappedBy = "credit", cascade = CascadeType.ALL)
     private List<DocumentEntity> documents = new ArrayList<>();
@@ -45,5 +49,5 @@ public class CreditEntity {
 
     @OneToOne
     @JoinColumn(name = "creditEvaluation_id")
-    private CreditEntity creditEvaluation;
+    private CreditEvaluationEntity creditEvaluation;
 }

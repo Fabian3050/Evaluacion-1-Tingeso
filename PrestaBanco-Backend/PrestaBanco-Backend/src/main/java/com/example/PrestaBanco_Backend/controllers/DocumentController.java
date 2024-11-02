@@ -1,5 +1,6 @@
 package com.example.PrestaBanco_Backend.controllers;
 
+import com.example.PrestaBanco_Backend.dto.DocumentDto;
 import com.example.PrestaBanco_Backend.entities.DocumentEntity;
 import com.example.PrestaBanco_Backend.services.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,8 @@ public class DocumentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<DocumentEntity>> getAllDocuments() {
-        List<DocumentEntity> documents = documentService.getAllDocuments();
-        return ResponseEntity.ok(documents);
+    public ResponseEntity<List<DocumentDto>> getAllDocuments(){
+        List<DocumentDto> documentDTOs = documentService.getAllDocuments();
+        return ResponseEntity.ok(documentDTOs);
     }
 }

@@ -31,10 +31,22 @@ public class SimulateService {
         float principal = simulate.getP();  // Loan amount
         float monthlyRate = simulate.getR(); // Monthly interest rate
         int paymentPeriod = simulate.getN();   // Number of payments (months)
+        double totalPriceHome = simulate.getTotalPriceHome();
+        String creditType = simulate.getCreditType();
 
         // Validate that the values are valid
         if (monthlyRate == 0 || paymentPeriod == 0) {
             throw new IllegalArgumentException("Interest rate and number of payments must be greater than zero.");
+        }
+
+        if (creditType.equals("firstHome")) {
+            totalPriceHome = totalPriceHome * 0.8;
+        }else if (creditType.equals("secondHome")) {
+            totalPriceHome = totalPriceHome * 0.7;
+        }else if (creditType.equals("commercialProperty")) {
+            totalPriceHome = totalPriceHome * 0.6;
+        }else if (creditType.equals("remodeling")) {
+            totalPriceHome = totalPriceHome * 0.5;
         }
 
         // Calculate the common power
@@ -46,13 +58,29 @@ public class SimulateService {
         return monthlyPayment;
     }
 
-    //verificar bien el uso de esta funcion, preguntar a chat gpt como realizar potencias en java
     public SimulateEntity getSimulateCredit(Long id){
         SimulateEntity simulate = getSimulateById(id);
         float monthlyFee = this.calculateMonthlyPayment(simulate);
-        int monthlyFeeRounded = (int)monthlyFee;
-        simulate.setM(monthlyFeeRounded);
-        return simulate;
+        if (monthlyFee < simulate.getMonthlyClientIncome()) {
+            simulate.setM((int) Math.round(monthlyFee));
+            simulate.setMessage("Esta en el rango, el cliente puede pagar la cuotas mensuales");
+        }else{
+            simulate.setM((int) Math.round(monthlyFee));
+            simulate.setMessage("No esta en el rango, el cliente no puede pagar las cuotas mensuales");
+        }
+        return  simulate;
     }
 
+    public SimulateEntity calculateMonthlyPaymentAllCost(Long simulateId){
+        SimulateEntity simulate = getSimulateById(simulateId);
+        double desgravamen = simulate.getP() * 0.0003;
+        double administration = simulate.getP() * 0.01;
+
+        float totaMonthlyPay = (float) (simulate.getM() + desgravamen + administration);
+        simulate.setTotalMonthlyPay((int)Math.round(totaMonthlyPay));
+
+        float totalCreditCost = (totaMonthlyPay * simulate.getN() + simulate.getP());
+        simulate.setTotalCreditCost((int)Math.round(totalCreditCost));
+        return simulate;
+    }
 }
