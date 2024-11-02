@@ -1,215 +1,176 @@
-import { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import SaveIcon from "@mui/icons-material/Save";
-import userService from "../services/user.service";
-import simulateService from "../services/simulate.service";
+import { useState } from "react";
+import simulateService from "../services/simulate.service"; // Importa el servicio
+import { Link } from "react-router-dom";
 
-const AddSimulate = () => {
-  const [m, setM] = useState("");
-  const [p, setP] = useState("");
-  const [r, setR] = useState("");
-  const [n, setN] = useState("");
+const CreditSimulation = () => {
+  // Estados para almacenar los valores de entrada del usuario
+  const [loanAmount, setLoanAmount] = useState("");
+  const [interestRate, setInterestRate] = useState("");
+  const [paymentPeriod, setPaymentPeriod] = useState("");
   const [totalPriceHome, setTotalPriceHome] = useState("");
   const [monthlyClientIncome, setMonthlyClientIncome] = useState("");
   const [creditType, setCreditType] = useState("");
-  const [message, setMessage] = useState("");
-  const [totalCreditCost, setTotalCreditCost] = useState("");
-  const [totalMnthlyPay, setTotalMnthlyPay] = useState("");
-  const [titleSimulateForm, setTitleUserForm] = useState("");
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const [simulationId, setSimulationId] = useState("");
+  
 
-  const handleSubmit = (s) => {
-    s.preventDefault();
+  // Estado para almacenar los resultados de la simulación
+  const [simulationResult, setSimulationResult] = useState(null);
 
-    const simulate = {
-      m, p, r, n, totalPriceHome, monthlyClientIncome, creditType, message, totalCreditCost, totalMnthlyPay, id
+  // Función para guardar la simulación en la base de datos
+  const handleSaveSimulation = async (e) => {
+    e.preventDefault();
+  
+    // Datos a enviar en la simulación
+    const simulationData = {
+      m: monthlyPayments,
+      p: loanAmount,         // loanAmount renombrado a "p"
+      r: interestRate,       // interestRate renombrado a "r"
+      n: paymentPeriod,      // paymentPeriod renombrado a "n"
+      totalPriceHome,
+      monthlyClientIncome,
+      creditType
     };
-
-    // Crear nueva simulación
-    simulateService
-      .create(simulate)
-      .then((response) => {
-        console.log("Solicitud de simulación creada correctamente.", response.data);
-        navigate("/simulate/list");
-      })
-      .catch((error) => {
-        console.log("Ha ocurrido un error al intentar solicitar la simulación.", error);
-      });
-
-    // Obtener simulación
-    simulateService
-      .simulate(simulate)
-      .then((response) => {
-        console.log("Simulación realizada correctamente.", response.data);
-        setM(response.m);
-        setMessage(response.message);
-        navigate("/simulateRealized");
-      });
+  
+    try {
+      // Guarda la simulación utilizando el servicio
+      const response = await simulateService.create(simulationData);
+      const createdId = response.data.id; // Asegúrate de que el servicio devuelva el ID de la simulación creada
+      setSimulationId(createdId); // Guarda el ID en el estado
+      alert("Simulación guardada correctamente.");
+    } catch (error) {
+      console.error("Error al guardar la simulación:", error);
+      alert("Hubo un error al guardar la simulación.");
+    }
   };
 
-  useEffect(() => {
-    if (id) {
-      setTitleUserForm("Editar simulación");
-      userService
-        .get(id)
-        .then((simulate) => {
-          setM(simulate.data.m);
-          setP(simulate.data.p);
-          setR(simulate.data.r);
-          setN(simulate.data.n);
-          setTotalPriceHome(simulate.data.totalPriceHome);
-          setMonthlyClientIncome(simulate.data.monthlyClientIncome);
-          setCreditType(simulate.data.creditType);
-          setMessage(simulate.data.message);
-          setTotalCreditCost(simulate.data.totalCreditCost);
-          setTotalMnthlyPay(simulate.data.totalMnthlyPay);
-        })
-        .catch((error) => {
-          console.log("Se ha producido un error.", error);
-        });
-    } else {
-      setTitleUserForm("Nueva Simulación");
+  // Función para realizar la simulación y obtener el resultado
+  const handlePerformSimulation = async (e) => {
+    e.preventDefault();
+  
+    if (!simulationId) {
+      alert("Primero debes guardar una simulación.");
+      return;
     }
-  }, [id]);
+  
+    try {
+      // Realiza la simulación utilizando solo el ID de la simulación guardada
+      const response = await simulateService.simulate(simulationId);
+      setSimulationResult(response.data);
+    } catch (error) {
+      console.error("Error realizando la simulación:", error);
+      alert("Hubo un error al realizar la simulación.");
+    }
+  };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      component="form"
-      onSubmit={handleSubmit}
-    >
-      <h3>{titleSimulateForm}</h3>
-      <hr />
+    <div className="container mt-5">
+      <div className="row">
+        {/* Columna para el formulario */}
+        <div className="col-md-6">
+          <h2>Simulación de Crédito</h2>
+          <form className="p-4 border rounded shadow-sm bg-light">
 
-      <FormControl fullWidth>
-        <TextField
-          id="m"
-          label="Monthly Payment"
-          value={m}
-          variant="standard"
-          onChange={(s) => setM(s.target.value)}
-          helperText="no rellenar este campo"
-        />
-      </FormControl>
+            <div className="mb-3">
+              <label htmlFor="loanAmount" className="form-label">Monto del Préstamo:</label>
+              <input
+                type="number"
+                id="loanAmount"
+                className="form-control"
+                value={loanAmount}
+                onChange={(e) => setLoanAmount(e.target.value)}
+                required
+              />
+            </div>
 
-      <FormControl fullWidth>
-            <TextField
-                id="p"
-                label="Credit Amount"
-                value={p}
-                variant="standard"
-                onChange={(s) => setP(s.target.value)}
-            />
-        </FormControl>
+            <div className="mb-3">
+              <label htmlFor="interestRate" className="form-label">Tasa de Interés Mensual(%):</label>
+              <input
+                type="number"
+                id="interestRate"
+                className="form-control"
+                step="0.01"
+                value={interestRate}
+                onChange={(e) => setInterestRate(e.target.value)}
+                required
+              />
+            </div>
 
-        <FormControl fullWidth>
-            <TextField
-                id="r"
-                label="Simulated Interest Rate"
-                value={r}
-                variant="standard"
-                onChange={(s) => setR(s.target.value)}
-            />
-        </FormControl>
+            <div className="mb-3">
+              <label htmlFor="paymentPeriod" className="form-label">Período de Pago (meses):</label>
+              <input
+                type="number"
+                id="paymentPeriod"
+                className="form-control"
+                value={paymentPeriod}
+                onChange={(e) => setPaymentPeriod(e.target.value)}
+                required
+              />
+            </div>
 
-        <FormControl fullWidth>
-            <TextField
-                id="n"
-                label="Number of Pays"
-                value={n}
-                variant="standard"
-                onChange={(s) => setN(s.target.value)}
-            />
-        </FormControl>
-
-        <FormControl fullWidth>
-            <TextField
+            <div className="mb-3">
+              <label htmlFor="totalPriceHome" className="form-label">Precio Total de la Vivienda:</label>
+              <input
+                type="number"
                 id="totalPriceHome"
-                label="Total Price Home"
+                className="form-control"
                 value={totalPriceHome}
-                variant="standard"
-                onChange={(s) => setTotalPriceHome(s.target.value)}
-            />
-        </FormControl>
+                onChange={(e) => setTotalPriceHome(e.target.value)}
+                required
+              />
+            </div>
 
-        <FormControl fullWidth>
-            <TextField
+            <div className="mb-3">
+              <label htmlFor="monthlyClientIncome" className="form-label">Ingreso Mensual del Cliente:</label>
+              <input
+                type="number"
                 id="monthlyClientIncome"
-                label="Monthly Client Income"
+                className="form-control"
                 value={monthlyClientIncome}
-                variant="standard"
-                onChange={(s) => setMonthlyClientIncome(s.target.value)}
-            />
-        </FormControl>
+                onChange={(e) => setMonthlyClientIncome(e.target.value)}
+                required
+              />
+            </div>
 
-        <FormControl fullWidth>
-            <TextField
+            <div className="mb-3">
+              <label htmlFor="creditType" className="form-label">Tipo de Crédito:</label>
+              <select
                 id="creditType"
-                label="Credit Type"
+                className="form-select"
                 value={creditType}
-                variant="standard"
-                onChange={(s) => setCreditType(s.target.value)}
-            />
-        </FormControl>
+                onChange={(e) => setCreditType(e.target.value)}
+                required
+              >
+                <option value="">Seleccionar</option>
+                <option value="firstHome">Primera Vivienda</option>
+                <option value="secondHome">Segunda Vivienda</option>
+                <option value="commercialProperty">Propiedad Comercial</option>
+                <option value="remodeling">Remodelación</option>
+              </select>
+            </div>
 
-        <FormControl fullWidth>
-            <TextField
-                id="message"
-                label="Message"
-                value={message}
-                variant="standard"
-                onChange={(s) => setMessage(s.target.value)}
-                helperText="no rellenar este campo"
-            />
-        </FormControl>
+            {/* Botones de acción */}
+            <button onClick={handleSaveSimulation} className="btn btn-primary w-100 mb-3">Guardar Datos</button>
+            <button onClick={handlePerformSimulation} className="btn btn-primary w-100">Realizar Simulación</button>
+          </form>
+        </div>
 
-        <FormControl fullWidth>
-            <TextField
-                id="totalCreditCost"
-                label="Total Credit Cost"
-                value={totalCreditCost}
-                variant="standard"
-                onChange={(s) => setTotalCreditCost(s.target.value)}
-                helperText="no rellenar este campo"
-            />  
-        </FormControl>
-
-        <FormControl fullWidth>
-            <TextField
-                id="totalMnthlyPay"
-                label="Total Monthly Pay"
-                value={totalMnthlyPay}
-                variant="standard"
-                onChange={(s) => setTotalMnthlyPay(s.target.value)}
-                helperText="no rellenar este campo"
-            />
-        </FormControl>
-      
-      <FormControl>
-        <br />
-        <Button
-          variant="contained"
-          color="info"
-          type="submit"
-          style={{ marginLeft: "0.5rem" }}
-          startIcon={<SaveIcon />}
-        >
-          Grabar
-        </Button>
-      </FormControl>
-
-      <hr />
-      <Link to="/simulate/list">Volver a la lista de simulaciones</Link>
-    </Box>
+        {/* Columna para los resultados */}
+        <div className="col-md-6">
+          <h2>Resultados de la Simulación</h2>
+          {simulationResult ? (
+            <div className="p-4 border rounded shadow-sm bg-light">
+              <p><strong>Pago Mensual:</strong> {simulationResult.m}</p>
+              <p><strong>Mensaje:</strong> {simulationResult.message}</p>
+            </div>
+          ) : (
+            <div className="p-4 border rounded shadow-sm bg-light">
+              <p>Introduce los datos y realiza la simulación para ver los resultados.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default AddSimulate;
+export default CreditSimulation;

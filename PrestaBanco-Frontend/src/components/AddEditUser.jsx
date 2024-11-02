@@ -54,6 +54,41 @@ const AddUser = () => {
     }
   };
 
+  const RutInput = () => {
+    const [rut, setRut] = useState("");
+  
+    const handleRutChange = (e) => {
+      const formattedRut = formatRut(e.target.value);
+      setRut(formattedRut);
+    };
+  
+    return (
+      <FormControl fullWidth>
+        <TextField
+          id="rut"
+          label="rut"
+          value={rut}
+          variant="standard"
+          onChange={handleRutChange}
+          placeholder="12.345.678-9"
+          helperText="Ej. 12.345.678-9"
+        />
+      </FormControl>
+    );
+  };
+
+  const formatRut = (rut) => {
+    // Remueve todos los puntos y guiones
+    rut = rut.replace(/\./g, '').replace(/-/g, '');
+  
+    // Extrae el dígito verificador
+    const dv = rut.slice(-1);
+    const mainRut = rut.slice(0, -1);
+  
+    // Formatea el RUT agregando puntos y el guion
+    return mainRut.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + dv;
+  };
+
   useEffect(() => {
     if (id) {
       setTitleUserForm("Editar usuario");
@@ -87,10 +122,10 @@ const AddUser = () => {
       <h3> {titleUserForm} </h3>
       <hr />
       <form>
-        <FormControl fullWidth>
+      <FormControl fullWidth>
           <TextField
             id="rut"
-            label="Rut"
+            label="rut"
             value={rut}
             variant="standard"
             onChange={(u) => setRut(u.target.value)}

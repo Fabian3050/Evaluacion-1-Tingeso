@@ -63,10 +63,10 @@ public class SimulateService {
         float monthlyFee = this.calculateMonthlyPayment(simulate);
         if (monthlyFee < simulate.getMonthlyClientIncome()) {
             simulate.setM((int) Math.round(monthlyFee));
-            simulate.setMessage("Esta en el rango, el cliente puede pagar la cuotas mensuales");
+            simulate.setMessage("Esta en el rango, el cliente puede pagar las cuotas mensuales según sun sueldo ingresado");
         }else{
             simulate.setM((int) Math.round(monthlyFee));
-            simulate.setMessage("No esta en el rango, el cliente no puede pagar las cuotas mensuales");
+            simulate.setMessage("No esta en el rango, el cliente no puede pagar las cuotas mensuales según su sueldo ingresado");
         }
         return  simulate;
     }
