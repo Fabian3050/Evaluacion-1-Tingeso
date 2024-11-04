@@ -83,7 +83,7 @@ const CreditSimulation = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="interestRate" className="form-label">Tasa de Interés Mensual(%):</label>
+              <label htmlFor="interestRate" className="form-label">Tasa de Interés Anual(%):</label>
               <input
                 type="number"
                 id="interestRate"

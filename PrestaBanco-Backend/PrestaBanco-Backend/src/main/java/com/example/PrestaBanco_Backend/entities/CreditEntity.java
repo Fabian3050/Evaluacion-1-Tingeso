@@ -1,6 +1,8 @@
 package com.example.PrestaBanco_Backend.entities;
 
 
+import com.example.PrestaBanco_Backend.dto.DocumentDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,11 +25,8 @@ public class CreditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "LoanType_id")
-    private LoanTypeEntity loanType;
 
-    private String creditType; // 1 o 2 o 3 o 4
+    private String creditType;
     private int maxTerm;
     private float interestRate;
     private int requestedAmount;
@@ -41,6 +40,7 @@ public class CreditEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private UserEntity user;
 
     @OneToOne

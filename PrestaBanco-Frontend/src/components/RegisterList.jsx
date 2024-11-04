@@ -67,6 +67,10 @@ const UserList = () => {
     navigate(`/request-credit/${userId}`);
   };
 
+  const handleViewCredits = (userId) => {
+    navigate(`/user/${userId}/credits`);
+  };
+
   return (
     <TableContainer component={Paper}>
       <br />
@@ -155,6 +159,16 @@ const UserList = () => {
                   style={{ marginLeft: "0.5rem" }}
                 >
                   Solicitar Crédito
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="success"
+                  size="small"
+                  onClick={() => handleViewCredits(user.id)}
+                  style={{ marginLeft: "0.5rem" }}
+                >
+                 ver solicitudes de credito
                 </Button>
 
               </TableCell>

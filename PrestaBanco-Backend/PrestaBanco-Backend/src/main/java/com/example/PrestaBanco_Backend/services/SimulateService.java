@@ -29,7 +29,7 @@ public class SimulateService {
     public float calculateMonthlyPayment(SimulateEntity simulate) {
         // Extract variables from the simulate object
         float principal = simulate.getP();  // Loan amount
-        float monthlyRate = simulate.getR(); // Monthly interest rate
+        float monthlyRate = simulate.getR()/12/100; // Monthly interest rate
         int paymentPeriod = simulate.getN();   // Number of payments (months)
         double totalPriceHome = simulate.getTotalPriceHome();
         String creditType = simulate.getCreditType();

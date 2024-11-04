@@ -16,7 +16,7 @@ const Home = () => {
                 <Link to="/user/list">
                     <button className="menu-button">Usuarios</button>
                 </Link>
-                <Link to="/ejecutivo">
+                <Link to="/executive">
                     <button className="menu-button">Ejecutivo</button>
                 </Link>
             </div>

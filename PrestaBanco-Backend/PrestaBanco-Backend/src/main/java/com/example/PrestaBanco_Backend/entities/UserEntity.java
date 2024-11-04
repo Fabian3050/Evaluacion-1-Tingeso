@@ -1,5 +1,7 @@
 package com.example.PrestaBanco_Backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +34,7 @@ public class UserEntity {
 
     @OneToMany
     @JoinColumn(name = "credit_id")
+    @JsonManagedReference
     private List<CreditEntity> credits = new ArrayList<>();
 
     @OneToOne

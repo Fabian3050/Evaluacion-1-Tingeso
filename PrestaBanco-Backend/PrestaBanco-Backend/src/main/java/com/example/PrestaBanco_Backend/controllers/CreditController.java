@@ -19,7 +19,8 @@ public class CreditController {
 
     @GetMapping("/get")
     public ResponseEntity<List<CreditDto>> getAllCredit(){
-        return (ResponseEntity<List<CreditDto>>) creditService.getAllCredit();
+        List<CreditDto> credits = creditService.getAllCredit();
+        return ResponseEntity.ok(credits);
     }
 
     @GetMapping("/get/{id}")

@@ -6,7 +6,6 @@ import com.example.PrestaBanco_Backend.entities.CreditEntity;
 import com.example.PrestaBanco_Backend.entities.DocumentEntity;
 import com.example.PrestaBanco_Backend.entities.UserEntity;
 import com.example.PrestaBanco_Backend.repositories.CreditRepository;
-import com.example.PrestaBanco_Backend.repositories.LoanTypeRepository;
 import com.example.PrestaBanco_Backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,18 +21,21 @@ public class CreditService {
     @Autowired
     CreditRepository creditRepository;
     @Autowired
-    LoanTypeRepository loanTypeRepository;
-    @Autowired
     UserRepository userRepository;
     @Autowired
     DocumentService documentService;
+    @Autowired
+    UserService userService;
 
 
     public Long saveCredit(CreditEntity credit, Long userId){
         Optional<UserEntity> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             UserEntity user = optionalUser.get();
+            user.getCredits().add(credit);
             credit.setUser(user);
+            float newRate = (credit.getInterestRate()/12)/100;
+            credit.setInterestRate(newRate);
             creditRepository.save(credit);
             return credit.getId();
         }else {
@@ -48,15 +50,11 @@ public class CreditService {
                 .collect(Collectors.toList());
     }
 
-    public List<CreditDto> getAllCreditByUserId(Long userId){
-        Optional<UserEntity> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            UserEntity user = optionalUser.get();
-            return user.getCredits().stream()
-                    .map(this::convertCreditToDTO)
-                    .collect(Collectors.toList());
-        }
-        return Collections.emptyList();
+    public List<CreditDto> getAllCreditByUserId(Long userId) {
+        UserEntity user = userService.getUSerById(userId);
+        return user.getCredits().stream()
+                .map(this::convertCreditToDTO)
+                .collect(Collectors.toList());
     }
 
     public CreditEntity updateCredit(CreditEntity credit){

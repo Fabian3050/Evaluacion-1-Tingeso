@@ -6,7 +6,10 @@ import UserList from './components/UserList'
 import AddUser from "./components/AddEditUser"
 import AddSimulate from './components/AddSimulate'
 import RegisterList from './components/RegisterList'
-import RequestCredit from './components/RequestCredit'
+import RequestCredit from './components/RequestDocument'
+import AddCredit from './components/AddCredit'
+import CreditList from './components/CreditList'
+import CreditEvaluationList from './components/CreditEvaluationList'
 
 
 function App() {
@@ -22,8 +25,11 @@ function App() {
             <Route path="/user/edit/:id" element = {<AddUser />} />
             <Route path="/simulate/add" element = {<AddSimulate />} />
             <Route path="/register/list" element = {<RegisterList />} />
-            <Route path="/request-credit/:userId" element = {<RequestCredit />} />
-          </Routes>
+            <Route path="/request-credit/:userId" element = {<AddCredit />} />
+            <Route path="/upload-documents/:creditId/:creditype" element = {<RequestCredit />} />
+            <Route path="/user/:userId/credits" element = {<CreditList />} />
+            <Route path="/executive" element = {<CreditEvaluationList />} />
+            </Routes>
       </div>
     </BrowserRouter>
   );
