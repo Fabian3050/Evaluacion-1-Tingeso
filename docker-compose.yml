@@ -55,12 +55,12 @@ services:
       - app-network
 
   frontend2:
-    image: mellow03/frontend-presta-banco:latest
+    image: fabian3050/PrestaBanco-Frontend:latest
     networks:
       - app-network
 
   frontend3:
-    image: mellow03/frontend-presta-banco:latest
+    image: fabian3050/PrestaBanco-Frontend:latest
     networks:
       - app-network
 
@@ -84,7 +84,7 @@ services:
     volumes:
       - ./nginx-backend.conf:/etc/nginx/nginx.conf
     ports:
-      - "8090:8090"  
+      - "8080:8080"  
     depends_on:
       - backend1
       - backend2
