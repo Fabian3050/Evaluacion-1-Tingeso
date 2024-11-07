@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -34,8 +34,7 @@ public class CreditService {
             UserEntity user = optionalUser.get();
             user.getCredits().add(credit);
             credit.setUser(user);
-            float newRate = (credit.getInterestRate()/12)/100;
-            credit.setInterestRate(newRate);
+            credit.setInterestRate((credit.getInterestRate()/12)/100);
             creditRepository.save(credit);
             return credit.getId();
         }else {
@@ -50,11 +49,39 @@ public class CreditService {
                 .collect(Collectors.toList());
     }
 
+    public CreditEntity getCreditById(Long creditId) {
+        return creditRepository.findById(creditId)
+                .orElseThrow(() -> new NoSuchElementException("No credit found with ID: " + creditId));
+    }
+
     public List<CreditDto> getAllCreditByUserId(Long userId) {
         UserEntity user = userService.getUSerById(userId);
         return user.getCredits().stream()
                 .map(this::convertCreditToDTO)
                 .collect(Collectors.toList());
+    }
+
+    public int getCreditTotalCost(Long creditId){
+        Optional<CreditEntity> credit = creditRepository.findById(creditId);
+        int requestedAmount = credit.get().getRequestedAmount();
+        int maxTerm = credit.get().getMaxTerm();
+        float interestRate = credit.get().getTotalCreditCost();
+        float creditLifeInsurance = (float) (requestedAmount * 0.0003);
+        int fireInsurance = 20000;
+        float commission = (float) (requestedAmount * 0.001);
+
+
+        double power = Math.pow(1 + interestRate, maxTerm);
+        float monthlyPayment = (float) (requestedAmount * (interestRate * power) / (power - 1)) + creditLifeInsurance + fireInsurance;
+        int totalCost = Math.round(monthlyPayment * maxTerm + commission);
+
+        return totalCost;
+    }
+
+    public String getUserIdByCredit(CreditEntity credit){
+        UserEntity user = credit.getUser();
+        String rut = user.getRut();
+        return rut;
     }
 
     public CreditEntity updateCredit(CreditEntity credit){
@@ -74,9 +101,10 @@ public class CreditService {
         CreditDto creditDTO = new CreditDto();
         creditDTO.setId(credit.getId());
         creditDTO.setCreditType(credit.getCreditType());
+        creditDTO.setMaxTerm(credit.getMaxTerm());
+        creditDTO.setInterestRate(credit.getInterestRate());
         creditDTO.setRequestedAmount(credit.getRequestedAmount());
         creditDTO.setApprovedAmount(credit.getApprovedAmount());
-        creditDTO.setMaxTerm(credit.getMaxTerm());
         creditDTO.setStatus(credit.getStatus());
         creditDTO.setApplicationDate(credit.getApplicationDate());
         creditDTO.setApprovedRejectionDate(credit.getApprovedRejectionDate());
@@ -101,5 +129,13 @@ public class CreditService {
         dto.setDocumentType(document.getDocumentType());
         dto.setTypeCreditDocument(document.getTypeCreditDocument());
         return dto;
+    }
+
+    public CreditEntity updateStatus(Long id, String status) {
+        CreditEntity credit = creditRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("No se encontró el crédito con ID: " + id));
+
+        credit.setStatus(status);
+        return creditRepository.save(credit);
     }
 }

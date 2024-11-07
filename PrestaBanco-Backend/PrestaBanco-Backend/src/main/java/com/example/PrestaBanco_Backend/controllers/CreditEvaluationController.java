@@ -1,7 +1,6 @@
 package com.example.PrestaBanco_Backend.controllers;
 
 import com.example.PrestaBanco_Backend.entities.CreditEvaluationEntity;
-import com.example.PrestaBanco_Backend.entities.UserEntity;
 import com.example.PrestaBanco_Backend.services.CreditEvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +27,14 @@ public class CreditEvaluationController {
         return ResponseEntity.ok(creditEvaluation);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<CreditEvaluationEntity> saveCreditEvaluation(@RequestBody CreditEvaluationEntity creditEvaluation){
-        CreditEvaluationEntity newCreditEvaluation = creditEvaluationService.saveCreditEvaluation(creditEvaluation);
+    @GetMapping("/getCreditId/{creditId}")
+    public CreditEvaluationEntity getCreditEvaluationByCreditId(@PathVariable Long creditId){
+        return creditEvaluationService.getCreditEvaluationByCreditId(creditId);
+    }
+
+    @PostMapping("/{creditId}")
+    public ResponseEntity<CreditEvaluationEntity> saveCreditEvaluation(@RequestBody CreditEvaluationEntity creditEvaluation, @PathVariable Long creditId){
+        CreditEvaluationEntity newCreditEvaluation = creditEvaluationService.saveCreditEvaluation(creditEvaluation,creditId);
         return ResponseEntity.ok(newCreditEvaluation);
     }
 

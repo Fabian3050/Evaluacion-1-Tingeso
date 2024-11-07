@@ -1,6 +1,6 @@
 package com.example.PrestaBanco_Backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,23 +12,25 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "credit_evaluation")
-public class CreditEvaluationEntity {
+@Table(name = "document")
+public class DocumentEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean ratioFeeIncome;
-    private Boolean creditHistory;
-    private Boolean jobSeniority;
-    private Boolean ratioDebtIncome;
-    private Boolean maximumFinancingAmount;
-    private Boolean applicantAge;
-    private Boolean savingCapacity;
+    private String typeCreditDocument;
 
-    @OneToOne
+    private String documentName;
+
+    private String documentType;
+
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private byte[] data;
+
+    @ManyToOne
     @JoinColumn(name = "credit_id")
-    @JsonBackReference
     private CreditEntity credit;
 }

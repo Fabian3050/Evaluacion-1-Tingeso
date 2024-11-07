@@ -63,12 +63,10 @@ const UploadDocuments = () => {
             ))}
           </ul>
         </div>
-
+        
         <button type="submit" className="btn btn-primary w-100">Subir Documentos</button>
+        <button type="button" className="btn btn-primary w-100 mt-2" onClick={handleBackToList}> Volver al registro</button>
       </form>
-      <button type="button" onClick={handleBackToList} className="btn btn-primary w-100">
-          Volver a la Lista de Registrados
-        </button>
     </div>
   );
 };

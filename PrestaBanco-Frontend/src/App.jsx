@@ -10,7 +10,8 @@ import RequestCredit from './components/RequestDocument'
 import AddCredit from './components/AddCredit'
 import CreditList from './components/CreditList'
 import CreditEvaluationList from './components/CreditEvaluationList'
-
+import AddCreditEvaluation from './components/AddCreditEvaluation'
+import ModifyStatus from './components/ModifiedStatus'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -26,9 +27,11 @@ function App() {
             <Route path="/simulate/add" element = {<AddSimulate />} />
             <Route path="/register/list" element = {<RegisterList />} />
             <Route path="/request-credit/:userId" element = {<AddCredit />} />
-            <Route path="/upload-documents/:creditId/:creditype" element = {<RequestCredit />} />
+            <Route path="/upload-documents/:creditId/:crediType" element = {<RequestCredit />} />
             <Route path="/user/:userId/credits" element = {<CreditList />} />
             <Route path="/executive" element = {<CreditEvaluationList />} />
+            <Route path="/executive/creditEvaluation" element = {<AddCreditEvaluation />} />
+            <Route path="/executive/status/:creditId" element = {<ModifyStatus />} />
             </Routes>
       </div>
     </BrowserRouter>

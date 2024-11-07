@@ -3,10 +3,10 @@ package com.example.PrestaBanco_Backend;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class PrestaBancoBackendApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 

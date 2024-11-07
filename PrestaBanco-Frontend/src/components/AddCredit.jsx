@@ -9,7 +9,7 @@ const CreditRequestForm = () => {
   // Estados para almacenar los valores del formulario
   const [creditAmount, setCreditAmount] = useState("");
   const [interestRate, setInterestRate] = useState("");
-  const [paymentPeriod, setPaymentPeriod] = useState("");
+  const [maxTerm, setMaxTerm] = useState("");
   const [creditType, setCreditType] = useState("");
 
   // Maneja la solicitud de crédito
@@ -21,8 +21,9 @@ const CreditRequestForm = () => {
       requestedAmount: creditAmount,
       approvedAmount: 0, // Asigna un valor predeterminado o ajusta según tus necesidades
       interestRate,
-      paymentPeriod,
+      maxTerm,
       creditType,
+      totalCreditCost: 0, // Asigna un valor predeterminado o ajusta según tus necesidades
     };
 
     try {
@@ -37,6 +38,10 @@ const CreditRequestForm = () => {
       console.error("Error al solicitar el crédito:", error);
       alert("Hubo un error al solicitar el crédito.");
     }
+  };
+
+  const handleBackToRegisterList = () => {
+    navigate('/register/list');
   };
 
   return (
@@ -74,8 +79,8 @@ const CreditRequestForm = () => {
             type="number"
             id="paymentPeriod"
             className="form-control"
-            value={paymentPeriod}
-            onChange={(e) => setPaymentPeriod(e.target.value)}
+            value={maxTerm}
+            onChange={(e) => setMaxTerm(e.target.value)}
             required
           />
         </div>
@@ -99,8 +104,8 @@ const CreditRequestForm = () => {
         </div>
 
         <button type="submit" className="btn btn-primary w-100">Solicitar Crédito</button>
+        <button type="button" className="btn btn-primary w-100 mt-2" onClick={handleBackToRegisterList}>Volver al Registro</button>
       </form>
-      
     </div>
     
   );

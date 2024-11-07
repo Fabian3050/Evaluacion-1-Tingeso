@@ -12,8 +12,9 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import userService from "../services/user.service.js";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-const UserList = () => {
+const RegisterList = () => {
   const [users, setUsers] = useState([]);
 
   const navigate = useNavigate();
@@ -132,7 +133,7 @@ const UserList = () => {
                 <Button
                   variant="contained"
                   color="info"
-                  size="small"
+                  size="small mt"
                   onClick={() => handleEdit(user.id)}
                   style={{ marginLeft: "0.5rem" }}
                   startIcon={<EditIcon />}
@@ -143,7 +144,7 @@ const UserList = () => {
                 <Button
                   variant="contained"
                   color="error"
-                  size="small"
+                  size="small mt"
                   onClick={() => handleDelete(user.id)}
                   style={{ marginLeft: "0.5rem" }}
                   startIcon={<DeleteIcon />}
@@ -154,9 +155,10 @@ const UserList = () => {
                 <Button
                   variant="contained"
                   color="success"
-                  size="small"
+                  size="small mt-1"
                   onClick={() => handleRequestCredit(user.id)}
                   style={{ marginLeft: "0.5rem" }}
+                  startIcon={<ArrowForwardIosIcon />}
                 >
                   Solicitar Crédito
                 </Button>
@@ -164,9 +166,10 @@ const UserList = () => {
                 <Button
                   variant="contained"
                   color="success"
-                  size="small"
+                  size="small mt-1"
                   onClick={() => handleViewCredits(user.id)}
                   style={{ marginLeft: "0.5rem" }}
+                  startIcon={<ArrowForwardIosIcon />}
                 >
                  ver solicitudes de credito
                 </Button>
@@ -183,4 +186,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default RegisterList;

@@ -15,30 +15,26 @@ const AddUser = () => {
   const [secondLastName, setSecondLastName] = useState("");
   const [salary, setSalary] = useState("");
   const [address, setAddress] = useState("");
-  const [titleUserForm, setTitleUserForm] = useState("");
+  const [titleUserForm, setTitleUserForm] = useState("Nuevo usuario");
+
   const { id } = useParams();
   const navigate = useNavigate();
 
   const saveUser = (u) => {
     u.preventDefault();
 
-    const user = { rut , name , secondName , lastName , secondLastName , salary , address,id };
+    const user = { rut, name, secondName, lastName, secondLastName, salary, address };
     if (id) {
-      //Actualizar Datos usuario
       userService
-        .update(user)
+        .update(id, user) // Paso el ID aquí en lugar de dentro del objeto
         .then((response) => {
-          console.log("usuario actualizado correctamente", response.data);
+          console.log("Usuario actualizado correctamente", response.data);
           navigate("/user/list");
         })
         .catch((error) => {
-          console.log(
-            "Ha ocurrido un error al intentar actualizar datos del usuario.",
-            error
-          );
+          console.log("Ha ocurrido un error al intentar actualizar datos del usuario.", error);
         });
     } else {
-      //Crear nuevo usuario
       userService
         .create(user)
         .then((response) => {
@@ -46,47 +42,16 @@ const AddUser = () => {
           navigate("/user/list");
         })
         .catch((error) => {
-          console.log(
-            "Ha ocurrido un error al intentar crear nuevo usuario.",
-            error
-          );
+          console.log("Ha ocurrido un error al intentar crear nuevo usuario.", error);
         });
     }
   };
 
-  const RutInput = () => {
-    const [rut, setRut] = useState("");
-  
-    const handleRutChange = (e) => {
-      const formattedRut = formatRut(e.target.value);
-      setRut(formattedRut);
-    };
-  
-    return (
-      <FormControl fullWidth>
-        <TextField
-          id="rut"
-          label="rut"
-          value={rut}
-          variant="standard"
-          onChange={handleRutChange}
-          placeholder="12.345.678-9"
-          helperText="Ej. 12.345.678-9"
-        />
-      </FormControl>
-    );
-  };
-
   const formatRut = (rut) => {
-    // Remueve todos los puntos y guiones
-    rut = rut.replace(/\./g, '').replace(/-/g, '');
-  
-    // Extrae el dígito verificador
+    rut = rut.replace(/\./g, "").replace(/-/g, "");
     const dv = rut.slice(-1);
     const mainRut = rut.slice(0, -1);
-  
-    // Formatea el RUT agregando puntos y el guion
-    return mainRut.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + dv;
+    return mainRut.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "-" + dv;
   };
 
   useEffect(() => {
@@ -95,7 +60,7 @@ const AddUser = () => {
       userService
         .get(id)
         .then((user) => {
-          setRut(user.data.rut);
+          setRut(formatRut(user.data.rut)); // Aplica formato al RUT al cargar
           setName(user.data.name);
           setSecondName(user.data.secondName);
           setLastName(user.data.lastName);
@@ -106,10 +71,8 @@ const AddUser = () => {
         .catch((error) => {
           console.log("Se ha producido un error.", error);
         });
-    } else {
-      setTitleUserForm("Nuevo usuario");
     }
-  }, []);
+  }, [id]); // Agrega `id` como dependencia
 
   return (
     <Box
@@ -118,96 +81,96 @@ const AddUser = () => {
       alignItems="center"
       justifyContent="center"
       component="form"
+      onSubmit={saveUser} // Cambia el evento aquí para manejar la acción de guardado
     >
-      <h3> {titleUserForm} </h3>
+      <h3>{titleUserForm}</h3>
       <hr />
-      <form>
       <FormControl fullWidth>
-          <TextField
-            id="rut"
-            label="rut"
-            value={rut}
-            variant="standard"
-            onChange={(u) => setRut(u.target.value)}
-            helperText="Ej. 12.587.698-8"
-          />
-        </FormControl>
+        <TextField
+          id="rut"
+          label="RUT"
+          value={rut}
+          variant="standard"
+          onChange={(e) => setRut(formatRut(e.target.value))} // Aplica formato al cambiar
+          helperText="Ej. 12.345.678-9"
+        />
+      </FormControl>
 
-        <FormControl fullWidth>
-          <TextField
-            id="name"
-            label="Name"
-            value={name}
-            variant="standard"
-            onChange={(u) => setName(u.target.value)}
-          />
-        </FormControl>
+      <FormControl fullWidth>
+        <TextField
+          id="name"
+          label="Name"
+          value={name}
+          variant="standard"
+          onChange={(e) => setName(e.target.value)}
+        />
+      </FormControl>
 
-        <FormControl fullWidth>
-          <TextField
-            id="secondName"
-            label="Second Name"
-            value={secondName}
-            variant="standard"
-            onChange={(u) => setSecondName(u.target.value)}  
-          />
-        </FormControl>
+      <FormControl fullWidth>
+        <TextField
+          id="secondName"
+          label="Second Name"
+          value={secondName}
+          variant="standard"
+          onChange={(e) => setSecondName(e.target.value)}
+        />
+      </FormControl>
 
-        <FormControl fullWidth>
-          <TextField  
-            id="lastName"
-            label="Last Name"
-            value={lastName}
-            variant="standard"
-            onChange={(u) => setLastName(u.target.value)}
-          />
-        </FormControl>
+      <FormControl fullWidth>
+        <TextField
+          id="lastName"
+          label="Last Name"
+          value={lastName}
+          variant="standard"
+          onChange={(e) => setLastName(e.target.value)}
+        />
+      </FormControl>
 
-        <FormControl fullWidth>
-          <TextField
-            id="secondLastName"
-            label="Second Last Name"
-            value={secondLastName}
-            variant="standard"
-            onChange={(u) => setSecondLastName(u.target.value)}
-          />
-        </FormControl>
+      <FormControl fullWidth>
+        <TextField
+          id="secondLastName"
+          label="Second Last Name"
+          value={secondLastName}
+          variant="standard"
+          onChange={(e) => setSecondLastName(e.target.value)}
+        />
+      </FormControl>
 
-        <FormControl fullWidth>
-          <TextField
-            id="address"
-            label="Address"
-            value={address}
-            variant="standard"
-            onChange={(u) => setAddress(u.target.value)}
-          />
-        </FormControl>
+      <FormControl fullWidth>
+        <TextField
+          id="address"
+          label="Address"
+          value={address}
+          variant="standard"
+          onChange={(e) => setAddress(e.target.value)}
+        />
+      </FormControl>
 
-        <FormControl fullWidth>
-          <TextField
-            id="salary"
-            label="Salary"
-            type="number"
-            value={salary}
-            variant="standard"
-            onChange={(u) => setSalary(u.target.value)}
-            helperText="Salario mensual en Pesos Chilenos"
-          />
-        </FormControl>
+      <FormControl fullWidth>
+        <TextField
+          id="salary"
+          label="Salary"
+          type="number"
+          value={salary}
+          variant="standard"
+          onChange={(e) => setSalary(e.target.value)}
+          helperText="Salario mensual en Pesos Chilenos"
+        />
+      </FormControl>
 
-        <FormControl>
-          <br />
-          <Button
-            variant="contained"
-            color="info"
-            onClick={(u) => saveUser(u)}
-            style={{ marginLeft: "0.5rem" }}
-            startIcon={<SaveIcon />}
-          >
-            Grabar
-          </Button>
-        </FormControl>
-      </form>
+      <FormControl>
+        <br />
+        <Button
+          type="submit"
+          variant="contained"
+          color="info"
+          style={{ marginLeft: "0.5rem" }}
+          startIcon={<SaveIcon />}
+        >
+          Grabar
+        </Button>
+      </FormControl>
+
       <hr />
       <Link to="/" className="btn btn-primary mt-3">
         Volver al Menú Principal
@@ -217,4 +180,3 @@ const AddUser = () => {
 };
 
 export default AddUser;
-

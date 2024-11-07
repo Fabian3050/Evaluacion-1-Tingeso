@@ -17,9 +17,29 @@ const getById = (id) => {
     return httpClient.get(`/api/v1/credit/get/${id}`);
 }
 
+const getTotalCost = (creditId) => {
+    return httpClient.get(`/api/v1/credit/getTotalCost/${creditId}`);
+}
+
+const getTotalMonthly = (data) => {
+    return httpClient.get(`/api/v1/credit/getTotalMonthly`, data);
+}
+
+const getCreditById = (id) => {
+    return httpClient.get(`/api/v1/credit/getById/${id}`);
+}
+
+const updateStatus = (creditId, status) => {
+    return httpClient.put(`/api/v1/credit/status/${creditId}`, { status });
+  };
+
 const remove = (id) => {
     return httpClient.delete(`/api/v1/credit/${id}`);
 }
 
-export default { getAll, create, get, getById, remove };
+const getUserRut = data => {
+    return httpClient.get(`/api/v1/credit/getUserId`, data);
+}
+
+export default { getAll, create, get, getById, remove , getUserRut, getTotalCost, getTotalMonthly, updateStatus , getCreditById};
 
