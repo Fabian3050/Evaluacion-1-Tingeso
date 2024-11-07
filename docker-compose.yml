@@ -13,7 +13,7 @@ services:
 
   # Backend
   backend1:
-    image: fabian3050/PrestaBanco-Backend:latest
+    image: fabian3050/prestabanco-backend1:latest
     environment:
       - DB_HOST=${DB_HOST}
       - DB_USER=${DB_USER}
@@ -25,7 +25,7 @@ services:
       - "8080"  
 
   backend2:
-    image: fabian3050/PrestaBanco-Backend:latest
+    image: fabian3050/prestabanco-backend2:latest
     environment:
       - DB_HOST=${DB_HOST}
       - DB_USER=${DB_USER}
@@ -37,7 +37,7 @@ services:
       - "8080"   
 
   backend3:
-    image: fabian3050/PrestaBanco-Backend:latest
+    image: fabian3050/prestabanco-backend3:latest
     environment:
       - DB_HOST=${DB_HOST}
       - DB_USER=${DB_USER}
@@ -50,17 +50,17 @@ services:
 
   # Frontend
   frontend1:
-    image: fabian3050/frontend-presta-banco:latest
+    image: fabian3050/prestabanco-frontend1:latest
     networks:
       - app-network
 
   frontend2:
-    image: fabian3050/PrestaBanco-Frontend:latest
+    image: fabian3050/prestabanco-frontend2:latest
     networks:
       - app-network
 
   frontend3:
-    image: fabian3050/PrestaBanco-Frontend:latest
+    image: fabian3050/prestabanco-frontend3:latest
     networks:
       - app-network
 
@@ -70,7 +70,7 @@ services:
     volumes:
       - ./nginx-frontend.conf:/etc/nginx/nginx.conf
     ports:
-      - "8070:80"   
+      - "8080:80"   
     depends_on:
       - frontend1
       - frontend2

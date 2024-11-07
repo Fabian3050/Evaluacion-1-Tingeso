@@ -74,9 +74,9 @@ public class CreditServiceTest {
     public void testGetCreditTotalCost() {
         Long creditId = 1L;
         CreditEntity credit = new CreditEntity();
-        credit.setRequestedAmount(1000);
+        credit.setRequestedAmount(10000000);
         credit.setMaxTerm(12);
-        credit.setTotalCreditCost((int) 0.05f);
+        credit.setTotalCreditCost(10000000);
 
         when(creditRepository.findById(creditId)).thenReturn(Optional.of(credit));
 

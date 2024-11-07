@@ -67,8 +67,9 @@ public class SimulateServiceTest {
     public void testCalculateMonthlyPayment() {
         SimulateEntity simulate = new SimulateEntity();
         simulate.setP(100000); // Principal amount
-        simulate.setR(5);      // Annual interest rate
-        simulate.setN(12);     // Payment period in months
+        simulate.setR(0.000375F);      // Annual interest rate
+        simulate.setN(120);     // Payment period in months
+        simulate.setCreditType("firstHome");
 
         float monthlyPayment = simulateService.calculateMonthlyPayment(simulate);
 
@@ -83,6 +84,7 @@ public class SimulateServiceTest {
         simulate.setP(100000); // Principal
         simulate.setR(5);      // Annual interest rate
         simulate.setN(12);     // Payment period
+        simulate.setCreditType("secondHome");
 
         when(simulateRepository.findById(id)).thenReturn(Optional.of(simulate));
 
