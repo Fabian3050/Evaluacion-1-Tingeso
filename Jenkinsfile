@@ -25,7 +25,7 @@ pipeline{
                 dir("prestabanco-backend"){
                     script{
                          withDockerRegistry(credentialsId: 'docker-credentials'){
-                            bat "docker build -t fabian3050/prestabanco-backend1 ./PrestaBanco-Backend"
+                            bat "docker build -t fabian3050/prestabanco-backend1 ."
                             bat "docker push fabian3050/prestabanco-backend1"
                         }
                     }                    
