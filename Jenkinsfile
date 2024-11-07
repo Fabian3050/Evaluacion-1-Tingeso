@@ -3,10 +3,18 @@ pipeline {
     tools {
         maven 'maven_3_8_1'
     }
+<<<<<<< HEAD:jenkinsfile
     stages {
         stage('Checkout repository') {
             steps {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Fabian3050/Evaluacion-1-Tingeso']])
+=======
+    stages{
+        stage("Build JAR File"){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Fabian3050/Evaluacion-1-Tingeso']])
+                bat "mvn clean install"
+>>>>>>> 9a5caccd8ed85998de8128ab2cac6d00c2252790:Jenkinsfile
             }
         }
 
