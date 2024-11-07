@@ -11,10 +11,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 public class CreditEvaluationServiceTest {
     @Mock
     private CreditEvaluationRepository creditEvaluationRepository;
@@ -25,9 +28,30 @@ public class CreditEvaluationServiceTest {
     @InjectMocks
     private CreditEvaluationService creditEvaluationService;
 
+    CreditEvaluationEntity creditEvaluation1;
+    CreditEvaluationEntity creditEvaluation2;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        creditEvaluation1 = new CreditEvaluationEntity();
+        creditEvaluation1.setId(1L);
+        creditEvaluation1.setApplicantAge(true);
+        creditEvaluation1.setJobSeniority(true);
+        creditEvaluation1.setMaximumFinancingAmount(true);
+        creditEvaluation1.setRatioDebtIncome(true);
+        creditEvaluation1.setSavingCapacity(true);
+        creditEvaluation1.setRatioDebtIncome(true);
+        creditEvaluation1.setCreditHistory(true);
+
+        creditEvaluation2 = new CreditEvaluationEntity();
+        creditEvaluation2.setRatioFeeIncome(false);
+        creditEvaluation2.setCreditHistory(false);
+        creditEvaluation2.setJobSeniority(false);
+        creditEvaluation2.setRatioDebtIncome(false);
+        creditEvaluation2.setMaximumFinancingAmount(false);
+        creditEvaluation2.setApplicantAge(false);
+        creditEvaluation2.setSavingCapacity(false);
     }
 
     @Test

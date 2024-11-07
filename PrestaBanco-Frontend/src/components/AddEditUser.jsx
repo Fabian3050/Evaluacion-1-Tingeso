@@ -26,7 +26,7 @@ const AddUser = () => {
     const user = { rut, name, secondName, lastName, secondLastName, salary, address };
     if (id) {
       userService
-        .update(id, user) // Paso el ID aquí en lugar de dentro del objeto
+        .update(user) // Paso el ID aquí en lugar de dentro del objeto
         .then((response) => {
           console.log("Usuario actualizado correctamente", response.data);
           navigate("/user/list");
@@ -58,7 +58,7 @@ const AddUser = () => {
     if (id) {
       setTitleUserForm("Editar usuario");
       userService
-        .get(id)
+        .getById(id)
         .then((user) => {
           setRut(formatRut(user.data.rut)); // Aplica formato al RUT al cargar
           setName(user.data.name);
